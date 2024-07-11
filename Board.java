@@ -75,7 +75,7 @@ public class Board {
         zero_x = location / 10;
         zero_y = location % 10;
 
-        if((zero_x + tile_x > 1) || (zero_y + tile_y > 1)){
+        if((Math.abs(zero_x + tile_x) > 1) || (Math.abs(zero_y + tile_y) > 1)){
             return false;
         }
 
@@ -100,8 +100,9 @@ public class Board {
 
                 if(isMoveValid(i, j)){
                     Board newBoard = new Board(this.board);
+                    int tmp = newBoard.board[i][j];
                     newBoard.board[i][j] = 0;
-                    newBoard.board[zero_x + i][zero_y + j] = this.board[i][j];
+                    newBoard.board[zero_x + i][zero_y + j] = tmp;
                     moves.add(newBoard);
                 }
             }
