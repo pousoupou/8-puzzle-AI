@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class UniformCostSearch {
     private ArrayList<Node<Board>> frontier;
     private ArrayList<Node<Board>> explored;
-    private ArrayList<Board> moves;
     private Board initialState;
     private ArrayList<Board> path;
 
@@ -11,10 +10,8 @@ public class UniformCostSearch {
         this.frontier = new ArrayList<Node<Board>>();
         this.explored = new ArrayList<Node<Board>>();
         this.initialState = initialState;
-        this.moves = initialState.getMoves();
         this.path = new ArrayList<Board>();
-        this.path.add(initialState);
-        this.frontier.add(new Node<Board>(initialState, null, null));
+        this.frontier.add(new Node<Board>(initialState, null));
     }
 
     public ArrayList<Board> getPath(Node<Board> node) {
@@ -27,14 +24,13 @@ public class UniformCostSearch {
     }
 
     public ArrayList<Board> search() {
-
-        System.out.println(frontier.isEmpty());
-
         while (!frontier.isEmpty()) {
             Node<Board> currentNode = frontier.get(0);
             frontier.remove(0);
             
             if (currentNode.getData().isGoal()) {
+                System.out.println("\nGoal state found.\nPath:\n");
+
                 return this.getPath(currentNode);
             }
             
@@ -42,15 +38,14 @@ public class UniformCostSearch {
 
             ArrayList<Board> successors = currentNode.getData().getMoves();
             for (Board successor : successors) {
-                Node<Board> newNode = new Node<Board>(successor, currentNode, null);
+                Node<Board> newNode = new Node<Board>(successor, currentNode);
                 if (!explored.contains(newNode) && !frontier.contains(newNode)) {
                     frontier.add(newNode);
-                    newNode.getData().printBoard();
                 }
             }
         }
     
         System.out.println("Goal state not found.");
-        return null; // Return null if goal state is not found
+        return null;
     }
 }

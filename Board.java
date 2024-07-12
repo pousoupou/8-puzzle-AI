@@ -9,9 +9,15 @@ public class Board {
     public Board(){
         this.board = new int[3][3];
     }
-
+    
     public Board(int[][] board){
-        this.board = board;
+        int[][] newBoard = new int[3][3];
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 3; j++){
+                newBoard[i][j] = board[i][j];
+            }
+        }
+        this.board = newBoard;
     }
 
     //TODO: make sure the board has only values from 0-8.
@@ -20,12 +26,7 @@ public class Board {
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
-                if(i == 1 && j == 1){
-                    this.board[i][j] = 0;
-                    continue;
-                }
-                
-                System.out.println("Enter the value at " + i + " " + j + "(1-8): ");
+                System.out.println("Enter the value at " + i + " " + j + "(0-8): ");
                 this.board[i][j] = input.nextInt();
             }
         }
@@ -34,7 +35,7 @@ public class Board {
     }
 
     public void printBoard(){
-        System.out.println("Board: \n\n");
+        System.out.println("Board: \n");
 
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 3; j++){
@@ -46,6 +47,7 @@ public class Board {
             }
             System.out.println();
         }
+        System.out.println("\n");
     }
 
     private int zeroLocation(){
@@ -75,7 +77,7 @@ public class Board {
         zero_x = location / 10;
         zero_y = location % 10;
 
-        if((Math.abs(zero_x + tile_x) > 1) || (Math.abs(zero_y + tile_y) > 1)){
+        if((Math.abs(zero_x - tile_x) > 1) || (Math.abs(zero_y - tile_y) > 1)){
             return false;
         }
 
@@ -102,7 +104,7 @@ public class Board {
                     Board newBoard = new Board(this.board);
                     int tmp = newBoard.board[i][j];
                     newBoard.board[i][j] = 0;
-                    newBoard.board[zero_x + i][zero_y + j] = tmp;
+                    newBoard.board[zero_x][zero_y] = tmp;
                     moves.add(newBoard);
                 }
             }
